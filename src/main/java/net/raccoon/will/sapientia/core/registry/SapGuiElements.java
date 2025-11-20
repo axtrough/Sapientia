@@ -2,12 +2,12 @@ package net.raccoon.will.sapientia.core.registry;
 
 
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import net.raccoon.will.sapientia.client.gui.Anchor;
-import net.raccoon.will.sapientia.client.gui.GuiManager;
-import net.raccoon.will.sapientia.client.gui.element.GuiElement;
-import net.raccoon.will.sapientia.client.gui.element.ItemElement;
-import net.raccoon.will.sapientia.client.gui.element.TextElement;
+import net.raccoon.will.sapientia.api.client.gui.GuiElement;
+import net.raccoon.will.sapientia.api.client.gui.Anchor;
+import net.raccoon.will.sapientia.api.client.gui.GuiManager;
+import net.raccoon.will.sapientia.client.gui.element.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,23 +19,22 @@ public class SapGuiElements {
     private static TextElement textTest;
     private static ItemElement itemTest;
 
-    private static <T extends GuiElement> T create(Supplier<T> supplier) {
-        T element = supplier.get();
-        ELEMENTS.add(element);
-        GuiManager.add(element);
-        return element;
+
+    public static void init() {
+        itemHeld();
+        textHeld();
     }
 
-    public static TextElement textTest() {
+    public static TextElement textHeld() {
         if (textTest == null)
             textTest = create(() -> new TextElement(
-                    Component.literal("Standing"),
+                    Component.literal("I have a boner"),
                     0xd185d6, true,
                     Anchor.TOP_CENTER, 0, 26));
         return textTest;
     }
 
-    public static ItemElement itemTest() {
+    public static ItemElement itemHeld() {
         if (itemTest == null)
             itemTest = create(() -> new ItemElement(
                     new ItemStack(SapItems.HOME_RUNE.get()),
@@ -44,17 +43,21 @@ public class SapGuiElements {
         return itemTest;
     }
 
+
+    //----------------------------------------------
+    public static List<GuiElement> all() {
+        return ELEMENTS;
+    }
+
     private static void register(GuiElement element) {
         ELEMENTS.add(element);
         GuiManager.add(element);
     }
 
-    public static void init() {
-        textTest();
-        itemTest();
-    }
-
-    public static List<GuiElement> all() {
-        return ELEMENTS;
+    private static <T extends GuiElement> T create(Supplier<T> supplier) {
+        T element = supplier.get();
+        ELEMENTS.add(element);
+        GuiManager.add(element);
+        return element;
     }
 }

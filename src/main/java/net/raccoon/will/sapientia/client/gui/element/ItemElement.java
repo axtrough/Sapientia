@@ -2,24 +2,39 @@ package net.raccoon.will.sapientia.client.gui.element;
 
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.world.item.ItemStack;
-import net.raccoon.will.sapientia.client.gui.Anchor;
+import net.raccoon.will.sapientia.api.client.gui.GuiElement;
+import net.raccoon.will.sapientia.api.client.gui.Anchor;
 
 public class ItemElement extends GuiElement {
     private ItemStack item;
+    private final ItemStack originalItem;
 
     public ItemElement(ItemStack stack, int width, int height, Anchor anchor, int offsetX, int offsetY) {
         super(width, height, anchor, offsetX, offsetY);
-        this.item = stack;
+        setItem(stack);
+        this.originalItem = stack;
     }
 
-    public void setItem(ItemStack stack) {
-        this.item = stack;
+    private void resetItem() {
+        this.item = originalItem;
     }
 
     @Override
-    protected void draw(GuiGraphics graphics, int x, int y) {
+    public void resetAll() {
+        super.resetAll();
+        resetItem();
+    }
+
+    public void setItem(ItemStack stack) {
+        if (this.item == null || !ItemStack.matches(this.item, stack)) {
+            this.item = stack != null ? stack.copy() : ItemStack.EMPTY;
+        }
+    }
+
+    @Override
+    protected void draw(GuiGraphics graphics) {
         if (item != null && !item.isEmpty()) {
-            graphics.renderItem(item, x, y);
+            graphics.renderItem(item, 0, 0);
         }
     }
 }
