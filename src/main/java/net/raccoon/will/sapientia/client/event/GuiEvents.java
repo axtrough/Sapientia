@@ -31,10 +31,8 @@ public class GuiEvents {
 
         if (player.isCrouching()) {
             SapGuiElements.textHeld().fadeTo(0, 1f, deltaSeconds);
-            SapGuiElements.itemHeld().fadeTo(0, 1f, deltaSeconds);
         } else {
             SapGuiElements.textHeld().fadeTo(1, 1f, deltaSeconds);
-            SapGuiElements.itemHeld().fadeTo(1, 1f, deltaSeconds);
         }
 
         GuiManager.render(guiGraphics, screenWidth, screenHeight, event);
