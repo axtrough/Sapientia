@@ -10,6 +10,7 @@ public abstract class GuiElement {
     protected Anchor anchor;
     protected float scale = 1.0f;
     protected float alpha = 1.0f;
+    protected float targetAlpha = 1.0f;
 
     protected final int originalWidth, originalHeight, originalOffsetX, originalOffsetY;
     protected final float originalScale;
@@ -36,13 +37,15 @@ public abstract class GuiElement {
     }
 
     public float getAlpha() {
-        return this.alpha;
+        return alpha;
     }
 
-    public void fadeTo(float targetAlpha, float speed) {
+    public void fadeTo(float target, float fadeDurationSeconds, float deltaSeconds) {
+        this.targetAlpha = target;
+        float speed = deltaSeconds / fadeDurationSeconds;
         this.alpha += (targetAlpha - this.alpha) * speed;
-        if (Math.abs(targetAlpha - alpha) < 0.01f) {
-            alpha = targetAlpha;
+        if (Math.abs(targetAlpha - this.alpha) < 0.01f) {
+            this.alpha = targetAlpha;
         }
     }
 
@@ -71,17 +74,19 @@ public abstract class GuiElement {
     }
 
     protected abstract void draw(GuiGraphics graphics);
+
     public void render(GuiGraphics graphics, int screenWidth, int screenHeight, RenderGuiEvent.Pre event) {
         updateSize();
         int x = calculateTopLeftX(screenWidth);
         int y = calculateTopLeftY(screenHeight);
 
+        graphics.setColor(1.0f, 1.0f, 1.0f, alpha);
         graphics.pose().pushPose();
         graphics.pose().translate(x, y, 0);
         graphics.pose().scale(scale, scale, 1);
-        graphics.setColor(1f, 1f, 1f, this.alpha);
+
+        graphics.setColor(1.0f, 1.0f, 1.0f, 1.0f);
         draw(graphics);
-        graphics.setColor(1f, 1f, 1f, 1f);
         graphics.pose().popPose();
     }
 

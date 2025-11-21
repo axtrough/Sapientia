@@ -15,25 +15,29 @@ import java.util.function.Supplier;
 
 public class SapGuiElements {
     public static final List<GuiElement> ELEMENTS = new ArrayList<>();
-    private static TextElement textTest;
-    private static ItemElement itemTest;
+    private static TextElement textHeld;
+    private static ItemElement itemHeld;
 
     public static TextElement textHeld() {
-        if (textTest == null)
-            textTest = create(() -> new TextElement(
+        if (textHeld == null) {
+            textHeld = create(() -> new TextElement(
                     Component.literal("Cheese balls loves my balls"),
                     0xd185d6, true,
-                    Anchor.TOP_CENTER, 0, 26));
-        return textTest;
+                    Anchor.TOP_CENTER, 0, 26
+            ));
+        }
+        return textHeld;
     }
 
     public static ItemElement itemHeld() {
-        if (itemTest == null)
-            itemTest = create(() -> new ItemElement(
+        if (itemHeld == null) {
+            itemHeld = create(() -> new ItemElement(
                     new ItemStack(SapItems.HOME_RUNE.get()),
                     16, 16,
-                    Anchor.TOP_CENTER, 0, 10));
-        return itemTest;
+                    Anchor.TOP_CENTER, 0, 10
+            ));
+        }
+        return itemHeld;
     }
 
     public static void init() {
@@ -41,14 +45,8 @@ public class SapGuiElements {
         textHeld();
     }
 
-    //----------------------------------------------
     public static List<GuiElement> all() {
         return ELEMENTS;
-    }
-
-    private static void register(GuiElement element) {
-        ELEMENTS.add(element);
-        GuiManager.add(element);
     }
 
     private static <T extends GuiElement> T create(Supplier<T> supplier) {

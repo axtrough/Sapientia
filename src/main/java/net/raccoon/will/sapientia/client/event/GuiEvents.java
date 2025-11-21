@@ -19,18 +19,22 @@ public class GuiEvents {
 
     @SubscribeEvent
     public static void onRenderGenericGui(RenderGuiEvent.Pre event) {
+        float deltaSeconds = 1f / 20f + event.getPartialTick().getGameTimeDeltaTicks() / 20f;
         GuiGraphics guiGraphics = event.getGuiGraphics();
         Minecraft minecraft = Minecraft.getInstance();
         Window window = minecraft.getWindow();
         Player player = minecraft.player;
 
+
         int screenWidth = window.getGuiScaledWidth();
         int screenHeight = window.getGuiScaledHeight();
 
         if (player.isCrouching()) {
-            SapGuiElements.textHeld().fadeTo(0, 1f);
+            SapGuiElements.textHeld().fadeTo(0, 1f, deltaSeconds);
+            SapGuiElements.itemHeld().fadeTo(0, 1f, deltaSeconds);
         } else {
-            SapGuiElements.textHeld().fadeTo(1, 1f);
+            SapGuiElements.textHeld().fadeTo(1, 1f, deltaSeconds);
+            SapGuiElements.itemHeld().fadeTo(1, 1f, deltaSeconds);
         }
 
         GuiManager.render(guiGraphics, screenWidth, screenHeight, event);
