@@ -22,7 +22,7 @@ public class SapGuiElements {
             gunInfo = create(() -> new TextElement(
                     Component.literal(""),
                     0xd185d6, true,
-                    Anchor.TOP_CENTER, 0, 26
+                    Anchor.BOTTOM_CENTER, -115, 6
             ));
         }
         return gunInfo;

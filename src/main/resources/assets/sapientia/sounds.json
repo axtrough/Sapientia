@@ -4,5 +4,17 @@
     "sounds": [
       "sapientia:revolver_shoot"
     ]
+  },
+  "revolver_spin": {
+    "subtitle": "sounds.sapientia.revolver_spin",
+    "sounds": [
+      "sapientia:revolver_spin"
+    ]
+  },
+  "revolver_empty": {
+    "subtitle": "sounds.sapientia.revolver_empty",
+    "sounds": [
+      "sapientia:revolver_empty"
+    ]
   }
 }

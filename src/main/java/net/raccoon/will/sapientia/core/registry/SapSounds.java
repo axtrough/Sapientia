@@ -14,6 +14,8 @@ public class SapSounds {
             DeferredRegister.create(BuiltInRegistries.SOUND_EVENT, Sapientia.MODID);
 
     public static Supplier<SoundEvent> REVOLVER_SHOOT = registerSoundEvent("revolver_shoot");
+    public static Supplier<SoundEvent> REVOLVER_SPIN = registerSoundEvent("revolver_spin");
+    public static Supplier<SoundEvent> REVOLVER_EMPTY = registerSoundEvent("revolver_empty");
 
 
     private static Supplier<SoundEvent> registerSoundEvent(String name) {

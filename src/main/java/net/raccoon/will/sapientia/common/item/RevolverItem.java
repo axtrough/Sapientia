@@ -53,10 +53,10 @@ public class RevolverItem extends Item {
         setCurrentChamber(stack, next);
     }
 
-    private boolean rollCylinder(ItemStack stack, Player player) {
+    private boolean rollCylinder(ItemStack stack, Player player, Level level) {
         if (player.isCrouching()) {
             spinCylinder(stack, player.getRandom());
-            player.playSound(SoundEvents.CHAIN_PLACE);
+            level.playLocalSound(player, SapSounds.REVOLVER_SPIN.get(), SoundSource.PLAYERS, 1, 1);
             player.displayClientMessage(Component.literal("Spinning Cylinder..."), true);
             return true;
         }
@@ -84,11 +84,14 @@ public class RevolverItem extends Item {
 
         if (bullets.isEmpty()) {
             player.displayClientMessage(Component.literal("No bullets in gun."), true);
-            return InteractionResultHolder.success(stack);
+
+            if (rollCylinder(stack, player, level)) {
+                return InteractionResultHolder.consume(stack);
+            }
         }
 
-        if (rollCylinder(stack, player)) {
-            return InteractionResultHolder.success(stack);
+        if (rollCylinder(stack, player, level)) {
+            return InteractionResultHolder.consume(stack);
         }
 
         if (bullets.contains(current)) {
@@ -101,10 +104,10 @@ public class RevolverItem extends Item {
             stack.set(SapComponents.BULLET_CHAMBERS.get(), bullets);
         } else {
             player.displayClientMessage(Component.literal("It didn't shoot loser"), true);
-            player.playSound(SoundEvents.ARROW_HIT_PLAYER);
+            level.playLocalSound(player, SapSounds.REVOLVER_EMPTY.get(), SoundSource.PLAYERS, 1, 1);
         }
 
         advanceCylinder(stack);
-        return InteractionResultHolder.success(stack);
+        return InteractionResultHolder.consume(stack);
     }
 }
